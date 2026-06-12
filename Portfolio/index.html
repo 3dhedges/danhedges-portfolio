@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dan Hedges — Geospatial Engineer & Consultant</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #4a9eff;
+      --accent-dim: rgba(74,158,255,0.12);
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14,14,14,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-name { font-weight: 600; font-size: 15px; letter-spacing: 0.01em; color: var(--text); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    #hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-label {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .bio {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #ccc;
+      max-width: 720px;
+    }
+    .bio p + p { margin-top: 16px; }
+    .hero-contact {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #3a8eef; text-decoration: none; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: #2a2a2a; text-decoration: none; }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 48px;
+      max-width: 600px;
+    }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .skill-group h3 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    /* ── Role sections ── */
+    .role-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .role-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+    .role-company { font-size: 1rem; color: var(--muted); }
+
+    /* ── Project cards ── */
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: border-color 0.2s;
+    }
+    .project-card:hover { border-color: #3a3a3a; }
+
+    .card-image {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      background: var(--surface2);
+    }
+    .card-image-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 260px;
+      overflow: hidden;
+    }
+    .card-image-pair img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-image-pair img:first-child { border-right: 1px solid var(--border); }
+
+    .card-caption {
+      padding: 10px 18px;
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .card-body { padding: 24px 28px; }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-client {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .card-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 16px 0 8px;
+    }
+    .card-section-label:first-child { margin-top: 0; }
+
+    .card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .card-body ul li {
+      font-size: 14px;
+      color: #bbb;
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .card-body ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+
+    .impact-text {
+      font-size: 14px;
+      color: #ccc;
+      font-style: italic;
+      border-left: 2px solid var(--accent);
+      padding-left: 14px;
+      margin-top: 4px;
+    }
+
+    .card-links {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .card-link {
+      font-size: 13px;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border: 1px solid rgba(74,158,255,0.3);
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .card-link:hover { background: var(--accent-dim); text-decoration: none; }
+
+    /* ── Awards / highlights list ── */
+    .highlight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .highlight-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .highlight-card p { font-size: 14px; color: #bbb; }
+
+    /* ── Account win tags ── */
+    .account-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .account-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    /* ── Content grid (blog/video/webinar) ── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .content-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .content-type {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .content-item a {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .content-item a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── Footer / Contact ── */
+    #contact { padding: 80px 0; }
+    .contact-inner { max-width: 540px; }
+    #contact h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+    #contact p { font-size: 16px; color: #bbb; margin-bottom: 32px; }
+    .contact-links { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">Dan Hedges</span>
+    <div class="nav-links">
+      <a href="#hero">Bio</a>
+      <a href="#skills">Skills</a>
+      <a href="#consulting">Consulting</a>
+      <a href="#rendered">Rendered.ai</a>
+      <a href="#esri">Esri</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="container">
+    <p class="hero-label">Geospatial Engineer &amp; Consultant</p>
+    <h1>Dan Hedges</h1>
+    <div class="bio">
+      <p>Dan Hedges is a geospatial engineer, consultant, and technical sales leader who specializes in turning complex challenges into real-world impact. With experience spanning spatial analysis, AI-training workflows, remote sensing, and synthetic data generation, Dan has delivered solutions that shape how cities are planned, how risk is assessed, and how AI is developed to tackle challenging edge-cases.</p>
+      <p>Whether leading teams to high-stakes wins, building tools and workflows to solve unique industry challenges, or helping enterprise clients unlock new capabilities, Dan's focus is always the same: understand the problem deeply, solve it elegantly, and make sure it matters to the people it's built for.</p>
+      <p>Through Hedgerow GIS Consulting, he partners with organizations across urban planning, environmental science, utilities and infrastructure, and beyond, bringing senior technical expertise to problems that sit at the edge of what enterprise GIS systems can do.</p>
+    </div>
+    <div class="hero-contact">
+      <a href="mailto:danrhedges@gmail.com" class="btn btn-primary">Get in Touch</a>
+      <a href="https://www.linkedin.com/in/hedgesdaniel/" target="_blank" rel="noopener" class="btn btn-secondary">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Expertise</p>
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Technical</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">ArcGIS Suite</span>
+          <span class="skill-tag">Open Source Geospatial</span>
+          <span class="skill-tag">3D Spatial Analysis</span>
+          <span class="skill-tag">Vector &amp; Raster Processing</span>
+          <span class="skill-tag">Remote Sensing</span>
+          <span class="skill-tag">Synthetic Data Generation</span>
+          <span class="skill-tag">Computer Vision</span>
+          <span class="skill-tag">Deep Learning / AI Workflows</span>
+          <span class="skill-tag">Spatial Database Design</span>
+          <span class="skill-tag">ETL Workflows</span>
+          <span class="skill-tag">AWS / Azure</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Technical Sales &amp; Leadership</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Solution Engineering</span>
+          <span class="skill-tag">Pre-Sales Architecture</span>
+          <span class="skill-tag">Enterprise Account Strategy</span>
+          <span class="skill-tag">Government Contract Pursuit</span>
+          <span class="skill-tag">Proposal &amp; Award Writing</span>
+          <span class="skill-tag">Executive Communication</span>
+          <span class="skill-tag">Technical Demos &amp; Workshops</span>
+          <span class="skill-tag">Conference Presenting</span>
+          <span class="skill-tag">Cross-functional Leadership</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Hedgerow Consulting ── -->
+<section id="consulting">
+  <div class="container">
+    <p class="section-label">Independent Consulting</p>
+    <h2 class="section-title">Hedgerow GIS Consulting</h2>
+    <p class="section-subtitle">Owner &amp; Chief Engineer — client projects across urban planning, environmental science, and utilities.</p>
+
+    <!-- EvariLux -->
+    <div class="project-card">
+      <div class="card-image-pair">
+        <img src="portfolio_images/streetlight_illumination_volumes.jpg" alt="Illumination volume cones above a site" />
+        <img src="portfolio_images/streetlight_illumination_surface.jpg" alt="Illumination surface analysis across a 3D city" />
+      </div>
+      <p class="card-caption">Illumination volumes (left) and illumination surface analysis (right). Images courtesy of Evari GIS Consulting.</p>
+      <div class="card-body">
+        <div class="card-title">EvariLux Tool Development</div>
+        <div class="card-client">Client: Evari GIS Consulting</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Designed and programmed tools to create illumination surfaces and illumination volumes from light pole location, surrounding topography, and light fixture photometric information.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">Contributed to market differentiation for the customer and an evolution of approach in the urban lighting design industry.</p>
+        <div class="card-links">
+          <a href="http://evarilux.com/" target="_blank" rel="noopener" class="card-link">↗ EvariLux</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCAG -->
+    <div class="project-card">
+      <div class="card-body">
+        <div class="card-title">3D Building Extraction</div>
+        <div class="card-client">Client: Houseal Lavigne Associates / Southern California Council of Governments (SCAG)</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Extracted building footprint polygons and 3D building volumes for ~1.5 million buildings in the incorporated areas of San Bernardino and Riverside counties.</li>
+          <li>Acquired and processed terabytes of LiDAR data for all included regions.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">Data is now used within the ArcGIS Urban solution, supporting planning initiatives for small and medium local governments throughout Southern California.</p>
+      </div>
+    </div>
+
+    <!-- Plume -->
+    <div class="project-card">
+      <img src="portfolio_images/plume_modeling.png" alt="3D contaminant plume visualization" class="card-image" />
+      <p class="card-caption">Plume model output example alongside dummy sample values.</p>
+      <div class="card-body">
+        <div class="card-title">3D Contaminant Plume Modeling</div>
+        <div class="card-client">Client: Aspect Consulting (now Geosyntec Consultants)</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Researched 3D plume modeling techniques to interpolate 3D structure of contaminants based on groundwater sample well locations.</li>
+          <li>Developed a solution for 3D plume generation and cross-sectional visualization for communication of contamination extents.</li>
+          <li>Provided a final presentation and handoff to executive and technical stakeholders.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">Enabled a new capability for holistically understanding and communicating contamination impact to Aspect's customers.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Rendered.ai ── -->
+<section id="rendered">
+  <div class="container">
+    <p class="section-label">Technical Sales Leadership</p>
+    <h2 class="section-title">Rendered.ai</h2>
+    <p class="section-subtitle">Lead Solution Engineer / Architect — driving enterprise growth and government partnerships in synthetic data for computer vision.</p>
+
+    <!-- Awards -->
+    <div class="highlight-card">
+      <h4>NSIN SynGen Challenge — $75K Award &rarr; $400K Contract</h4>
+      <p>Led the project team to win the National Security Innovation Network SynGen challenge in 2023. The award expanded into a $400,000 follow-on contract with a strategic customer in the US government.</p>
+      <div class="card-links" style="margin-top:14px;">
+        <a href="https://nsin.mil/events/2023-01-30-syngen/" target="_blank" rel="noopener" class="card-link">↗ NSIN SynGen</a>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <h4>Open Geospatial Consortium — Testbed-19</h4>
+      <p>Led Rendered.ai's initiatives and authored reports for the Machine Learning and Analysis Ready Data programs.</p>
+      <div class="card-links" style="margin-top:14px;">
+        <a href="https://www.ogc.org/initiatives/t-19/" target="_blank" rel="noopener" class="card-link">↗ OGC Testbed-19</a>
+        <a href="https://docs.ogc.org/per/23-033.html" target="_blank" rel="noopener" class="card-link">↗ Machine Learning Report</a>
+        <a href="https://docs.ogc.org/per/23-043.html" target="_blank" rel="noopener" class="card-link">↗ Analysis Ready Data Report</a>
+      </div>
+    </div>
+
+    <!-- Account wins -->
+    <div class="highlight-card">
+      <h4>Strategic Technical Sales Account Wins</h4>
+      <p>Selected public examples of enterprise accounts closed through technical solution engineering:</p>
+      <div class="account-tags">
+        <span class="account-tag">AvaSure</span>
+        <span class="account-tag">Planet Labs</span>
+        <span class="account-tag">SatelliteVu</span>
+        <span class="account-tag">Vizgard (UK MOD)</span>
+        <span class="account-tag">Faculty AI (UK MOD)</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <p class="section-label" style="margin-top:40px;">Published Content</p>
+    <div class="content-grid">
+      <div class="content-item">
+        <span class="content-type">Blog</span>
+        <a href="https://rendered.ai/comparing-synthetic-and-real-image-datasets-using-umap/" target="_blank" rel="noopener">Comparing Datasets Using the UMAP Tool</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Blog</span>
+        <a href="https://rendered.ai/generate-synthetic-data-for-aerial-object-detection-with-rendered-ai/" target="_blank" rel="noopener">Synthetic Data for Satellite Imagery</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Video</span>
+        <a href="https://www.youtube.com/watch?v=KGbMa6s1hrY&ab_channel=RenderedAI" target="_blank" rel="noopener">Getting Started on the Rendered.ai Platform</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Video</span>
+        <a href="https://www.youtube.com/watch?v=91RxSO_mqEM&ab_channel=RenderedAI" target="_blank" rel="noopener">Comparing Image Datasets Using UMAP</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Webinar</span>
+        <a href="https://www.youtube.com/watch?v=xlF7k-yB_Xc&ab_channel=RenderedAI" target="_blank" rel="noopener">5 Pitfalls to Avoid in Computer Vision</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Webinar</span>
+        <a href="https://www.youtube.com/watch?v=Ou_-v8_rZR4&t=1510s&ab_channel=RenderedAI" target="_blank" rel="noopener">Synthetic Satellite Imagery Data in Rendered.ai</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Webinar</span>
+        <a href="https://www.youtube.com/watch?v=vQyWIt22hSw&t=2s&ab_channel=RenderedAI" target="_blank" rel="noopener">An Introduction to Synthetic Data and Rendered.ai</a>
+      </div>
+      <div class="content-item">
+        <span class="content-type">Workshop</span>
+        <a href="https://www.youtube.com/watch?v=-rjUuggQFqU&ab_channel=RenderedAI" target="_blank" rel="noopener">Creating and Using Synthetic Data — CVPR 2022</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Esri ── -->
+<section id="esri">
+  <div class="container">
+    <p class="section-label">Product Engineering</p>
+    <h2 class="section-title">Esri</h2>
+    <p class="section-subtitle">3D Product Engineer — building geospatial tools and R&amp;D initiatives that shaped ArcGIS's 3D capabilities.</p>
+
+    <!-- 3D Basemap -->
+    <div class="project-card">
+      <img src="portfolio_images/3D_Basemap_Austin.gif" alt="Animated 3D basemap of Austin, TX" class="card-image" />
+      <p class="card-caption">3D Basemap content compared against lidar data. Image courtesy of Esri, Inc.</p>
+      <div class="card-body">
+        <div class="card-title">ArcGIS Solutions: 3D Basemap</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Programmed tools for building footprint segmentation, roof form extraction, 3D building representation, and tree extraction.</li>
+          <li>Designed database schema for managing all 3D building related information.</li>
+          <li>Developed public-facing documentation and visual aids for this workflow.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">This solution became one of the top three most-downloaded in the ArcGIS Solutions catalog, contributing to a significant increase in adoption of 3D GIS capabilities among ArcGIS users.</p>
+        <div class="card-links">
+          <a href="https://doc.arcgis.com/en/arcgis-solutions/11.1/reference/use-3d-basemaps.htm" target="_blank" rel="noopener" class="card-link">↗ ArcGIS Documentation</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Development Impact -->
+    <div class="project-card">
+      <div class="card-body">
+        <div class="card-title">ArcGIS Solutions: Development Impact Analysis</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Developed and validated solar and shadow impact analysis workflows.</li>
+          <li>Contributed to public documentation for these tools.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">Enabled ArcGIS users to evaluate complex impacts only measurable using 3D analysis, increasing the ROI of adopting 3D GIS capabilities.</p>
+        <div class="card-links">
+          <a href="https://doc.arcgis.com/en/arcgis-solutions/11.1/reference/use-development-impact-analysis.htm" target="_blank" rel="noopener" class="card-link">↗ ArcGIS Documentation</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ArcGIS Urban -->
+    <div class="project-card">
+      <img src="portfolio_images/ArcGIS_Urban.png" alt="ArcGIS Urban buildable volume visualization" class="card-image" />
+      <p class="card-caption">ArcGIS Urban buildable volume visualization. Image courtesy of Esri, Inc.</p>
+      <div class="card-body">
+        <div class="card-title">Esri Product Development: ArcGIS Urban</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Built initial internal database schema and prototype to validate workflow.</li>
+          <li>Developed Python tool to classify parcel boundary edges (front/side/rear) based on surrounding road network and neighboring parcel geometries — still in use internally more than five years after leaving Esri.</li>
+          <li>Led client jumpstarts to get local governments integrated into ArcGIS Urban.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">ArcGIS Urban became a critical offering for Esri's Urban Planning customer base at a time when competitive offerings in this space were putting the sector at risk.</p>
+        <div class="card-links">
+          <a href="https://www.esri.com/en-us/arcgis/products/arcgis-urban/overview" target="_blank" rel="noopener" class="card-link">↗ ArcGIS Urban</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- R&D -->
+    <div class="project-card">
+      <img src="portfolio_images/AI_3d_buildings.png" alt="AI-generated 3D buildings from LiDAR" class="card-image" />
+      <p class="card-caption">Automated 3D building output from a LiDAR-only input. Image courtesy of Dmitry Kudinov via Medium.com.</p>
+      <div class="card-body">
+        <div class="card-title">R&amp;D: Reconstructing 3D Buildings from Aerial LiDAR with AI</div>
+        <div class="card-section-label">Contributions</div>
+        <ul>
+          <li>Led project and managed requirements for automatically generating 2D and 3D buildings directly from LiDAR data input.</li>
+          <li>Developed real and synthetic training data for AI development.</li>
+          <li>Worked with Esri developers to validate initial deep-learning tools in ArcGIS.</li>
+        </ul>
+        <div class="card-section-label">Impact</div>
+        <p class="impact-text">One of the first major uses of custom-trained computer vision models within ArcGIS Pro — this work stress-tested these capabilities and charted a new path for 3D content generation within the company.</p>
+        <div class="card-links">
+          <a href="https://medium.com/geoai/reconstructing-3d-buildings-from-aerial-lidar-with-ai-details-6a81cb3079c0" target="_blank" rel="noopener" class="card-link">↗ Read on Medium</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <p class="section-label">Get in Touch</p>
+      <h2>Let's work together.</h2>
+      <p>Whether you're looking for a technical partner on a complex geospatial challenge, a solution engineer to help close enterprise deals, or a consultant who can bridge the gap between cutting-edge technology and real-world impact — reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:danrhedges@gmail.com" class="btn btn-primary">danrhedges@gmail.com</a>
+        <a href="https://www.linkedin.com/in/hedgesdaniel/" target="_blank" rel="noopener" class="btn btn-secondary">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Dan Hedges · Hedgerow GIS Consulting</p>
+</footer>
+
+</body>
+</html>
